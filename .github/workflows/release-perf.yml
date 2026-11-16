@@ -1,0 +1,27 @@
+name: Release Perf zip
+on:
+  workflow_dispatch:
+    inputs:
+      run_id:
+        description: "ID do run do build"
+        required: true
+        type: string
+permissions:
+  contents: write
+  actions: read
+jobs:
+  rel:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: Floppy-Perf-ginkgo
+          run-id: ${{ inputs.run_id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: out
+      - name: Criar release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          ls -la out
+          gh release create "perf-${{ inputs.run_id }}" out/*.zip --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" --title "Floppy Perf ginkgo KSUNext" --notes "Build do run ${{ inputs.run_id }}"
