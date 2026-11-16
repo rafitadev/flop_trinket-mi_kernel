@@ -1,0 +1,59 @@
+# Coloque em: .github/workflows/build-ginkgo-perf.yml  (no SEU fork do flop_trinket-mi_kernel, branch floppy-unity)
+# Se o fork ainda nao tem o perfil Perf, coloque tambem o floppy-perf.patch em .github/floppy-perf.patch
+name: Build Floppy Perf (ginkgo + KernelSU Next)
+
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: "Alvo (ginkgo = so Redmi Note 8/8T; mitrinket = ginkgo + laurel)"
+        default: "ginkgo"
+        type: choice
+        options: [ginkgo, mitrinket]
+      options:
+        description: "Flags do do_build.sh (k = KernelSU Next+SUSFS, p = Perf, R = release)"
+        default: "kp"
+        type: string
+      clang:
+        description: "Toolchain"
+        default: "aosp"
+        type: choice
+        options: [aosp, proton, greenforce, zyc]
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04   # 22.04 por causa do libtinfo5 que o deps.sh do repo pede
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: kernel
+          fetch-depth: 1
+
+      - name: Aplicar perfil Perf (se ainda nao existir)
+        working-directory: kernel
+        run: |
+          if [ ! -f arch/arm64/configs/perf.config ]; then
+            test -f .github/floppy-perf.patch || { echo "Falta .github/floppy-perf.patch"; exit 1; }
+            git apply --index .github/floppy-perf.patch
+          fi
+
+      - name: Dependencias
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y lz4 brotli flex bison bc cpio kmod zip ccache \
+            binutils-aarch64-linux-gnu libtinfo5 python3 libssl-dev curl
+
+      - name: Compilar
+        working-directory: kernel
+        env:
+          WP: ${{ github.workspace }}
+          CLANG_TYPE: ${{ inputs.clang }}
+        run: ./do_build.sh "${{ inputs.target }}" ${{ inputs.options }}
+
+      - name: Enviar zip
+        uses: actions/upload-artifact@v4
+        with:
+          name: Floppy-Perf-${{ inputs.target }}
+          path: kernel/build/Floppy_*.zip
+          if-no-files-found: error
