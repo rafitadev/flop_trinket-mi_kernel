@@ -820,6 +820,31 @@ config PROCESS_RECLAIM
 
 	 Any other value is ignored.
 
+config PROCESS_RECLAIM_DEFAULT_ENABLE
+	bool "Enable automatic process reclaim at boot"
+	depends on PROCESS_RECLAIM
+	help
+	  Turns on enable_process_reclaim by default, so background apps are
+	  compressed into zRAM under memory pressure without any userspace
+	  help. Can still be toggled at runtime in
+	  /sys/module/process_reclaim/parameters/enable_process_reclaim.
+
+config PROCESS_RECLAIM_PRESSURE_MIN
+	int "Default vmpressure level where process reclaim starts (0-100)"
+	depends on PROCESS_RECLAIM
+	default 50
+	help
+	  Lower values make process reclaim start earlier (less RAM used,
+	  more CPU spent compressing).
+
+config PROCESS_RECLAIM_MIN_ADJ
+	int "Default minimum oom_score_adj of tasks that may be reclaimed"
+	depends on PROCESS_RECLAIM
+	default 360
+	help
+	  Only tasks with oom_score_adj >= this value are reclaimed
+	  (foreground = 0, visible = 100, perceptible = 200, cached >= 900).
+
 config FORCE_ALLOC_FROM_DMA_ZONE
 	bool "Force certain memory allocators to always return ZONE_DMA memory"
 	depends on ZONE_DMA
