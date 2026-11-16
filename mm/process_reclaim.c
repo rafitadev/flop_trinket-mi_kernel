@@ -30,7 +30,7 @@ static void swap_fn(struct work_struct *work);
 DECLARE_WORK(swap_work, swap_fn);
 
 /* User knob to enable/disable process reclaim feature */
-static int enable_process_reclaim;
+static int enable_process_reclaim = IS_ENABLED(CONFIG_PROCESS_RECLAIM_DEFAULT_ENABLE);
 module_param_named(enable_process_reclaim, enable_process_reclaim, int, 0644);
 
 /* The max number of pages tried to be reclaimed in a single run */
@@ -41,10 +41,14 @@ int reclaim_avg_efficiency;
 module_param_named(reclaim_avg_efficiency, reclaim_avg_efficiency, int, 0444);
 
 /* The vmpressure region where process reclaim operates */
-static unsigned long pressure_min = 50;
+static unsigned long pressure_min = CONFIG_PROCESS_RECLAIM_PRESSURE_MIN;
 static unsigned long pressure_max = 90;
 module_param_named(pressure_min, pressure_min, ulong, 0644);
 module_param_named(pressure_max, pressure_max, ulong, 0644);
+
+/* Only tasks with oom_score_adj >= this value are reclaimed */
+static int reclaim_min_adj = CONFIG_PROCESS_RECLAIM_MIN_ADJ;
+module_param_named(min_score_adj, reclaim_min_adj, int, 0644);
 
 /*
  * Scheduling process reclaim workqueue unecessarily
@@ -112,7 +116,7 @@ static void swap_fn(struct work_struct *work)
 	int i;
 	int tasksize;
 	int total_sz = 0;
-	short min_score_adj = 360;
+	short min_score_adj = (short)reclaim_min_adj;
 	int total_scan = 0;
 	int total_reclaimed = 0;
 	int nr_to_reclaim;
