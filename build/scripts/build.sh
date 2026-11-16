@@ -18,6 +18,7 @@ build() {
         [[ "$DO_KSU" == "1" ]] && FRAGMENTS="$FRAGMENTS ksu.config"
         [[ "$DO_SUKI" == "1" ]] && FRAGMENTS="$FRAGMENTS sukisu.config"
         [[ "$DO_XXKSU" == "1" ]] && FRAGMENTS="$FRAGMENTS xxksu.config"
+        [[ "$DO_PERF" == "1" ]] && FRAGMENTS="$FRAGMENTS perf.config"
         [ "$DROIDSPACES" = "1" ] && [ "$DO_REGEN" != "1" ] && FRAGMENTS="$FRAGMENTS droidspaces.config"
         if [[ "$CKB_CRASHKEY" == "1" ]]; then
             FRAGMENTS="$FRAGMENTS crash_key.config"
@@ -62,6 +63,10 @@ build() {
     if [[ "$CKB_CRASHKEY" == "1" ]]; then
         # Append CrashKey to the LOCALVERSION string
         VERSION_STR="${VERSION_STR%\"}-CrashKey\""
+    fi
+
+    if [[ "$DO_PERF" == "1" ]]; then
+        VERSION_STR="${VERSION_STR%\"}-Perf\""
     fi
 
     scripts/config --file "$KDIR/out/.config" --set-val LOCALVERSION "$VERSION_STR"

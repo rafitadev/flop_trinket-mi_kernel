@@ -115,6 +115,7 @@ DO_TG=0
 DO_REGEN=0
 DO_ZXZ=0
 DO_FLTO=0
+DO_PERF=0
 for arg in "$@"; do
     if [[ "$arg" == *m* ]]; then
         log_info "menuconfig argument passed, kernel configuration menu will be shown"
@@ -151,6 +152,10 @@ for arg in "$@"; do
     if [[ "$arg" == *r* ]]; then
         log_info "config regeneration mode"
         DO_REGEN=1
+    fi
+    if [[ "$arg" == *p* ]]; then
+        log_info "Perf argument passed, performance config fragment will be applied"
+        DO_PERF=1
     fi
     if [[ "$arg" == *l* ]]; then
         log_info "Full-LTO argument passed"
@@ -213,6 +218,7 @@ else
     CK_TYPE="Vanilla"
     CK_TYPE_SHORT="V"
 fi
+[[ "$DO_PERF" == "1" ]] && CK_TYPE="$CK_TYPE-Perf"
 ZIP_PATH="$KDIR/build/Floppy_$FK_VER-$CK_TYPE-$CODENAME-$DATE.zip"
 
 echo -e "\n$(log_info "Build info:")

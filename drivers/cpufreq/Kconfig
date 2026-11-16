@@ -213,6 +213,32 @@ config CPU_BOOST
 
 	  If in doubt, say N.
 
+if CPU_BOOST
+
+config CPU_BOOST_INPUT_LITTLE_FREQ
+	int "Default input boost freq for little cluster (CPU0-3), kHz"
+	default 1305600
+	help
+	  Frequency floor applied to CPU0-3 on touch/key input. 0 disables
+	  the default (userspace may still set it at runtime through
+	  /sys/module/cpu_boost/parameters/input_boost_freq).
+
+config CPU_BOOST_INPUT_BIG_FREQ
+	int "Default input boost freq for big cluster (CPU4-7), kHz"
+	default 1401600
+	help
+	  Frequency floor applied to CPU4-7 on touch/key input. 0 disables.
+
+config CPU_BOOST_INPUT_MS
+	int "Default input boost duration, ms"
+	default 80
+	help
+	  How long the input boost lasts. Input events are rate limited to
+	  one boost per 100 ms, so values near 100 keep the boost active
+	  during continuous scrolling.
+
+endif
+
 config CPU_FREQ_GOV_SCHEDUTIL
 	bool "'schedutil' cpufreq policy governor"
 	depends on CPU_FREQ && SMP
