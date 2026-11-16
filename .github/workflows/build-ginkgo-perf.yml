@@ -20,6 +20,9 @@ on:
         type: choice
         options: [aosp, proton, greenforce, zyc]
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-22.04   # 22.04 por causa do libtinfo5 que o deps.sh do repo pede
@@ -49,7 +52,24 @@ jobs:
         env:
           WP: ${{ github.workspace }}
           CLANG_TYPE: ${{ inputs.clang }}
-        run: ./do_build.sh "${{ inputs.target }}" ${{ inputs.options }}
+        run: |
+          set -o pipefail
+          ./do_build.sh "${{ inputs.target }}" ${{ inputs.options }} 2>&1 | tee "$GITHUB_WORKSPACE/build.log"
+
+      - name: Publicar log na branch build-logs
+        if: always()
+        working-directory: kernel
+        run: |
+          git config user.name "build-bot"; git config user.email "bot@users.noreply.github.com"
+          mkdir -p /tmp/logs
+          tail -n 250 "$GITHUB_WORKSPACE/build.log" > /tmp/logs/tail.txt || true
+          grep -n -E "error:|Error [0-9]|\*\*\*|undefined reference|fatal|No rule" "$GITHUB_WORKSPACE/build.log" | head -120 > /tmp/logs/errors.txt || true
+          git checkout -q --orphan build-logs
+          git rm -rf -q . || true
+          cp /tmp/logs/*.txt .
+          git add -f tail.txt errors.txt
+          git commit -q -m "build log ${{ github.run_id }}"
+          git push -f origin build-logs
 
       - name: Enviar zip
         uses: actions/upload-artifact@v4
