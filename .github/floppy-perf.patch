@@ -1,0 +1,180 @@
+From f206158f479f3cf71870c651b521f5cfa549a6dc Mon Sep 17 00:00:00 2001
+From: perf <perf@local>
+Date: Mon, 16 Nov 2026 02:50:56 +0000
+Subject: [PATCH] Add Floppy Perf profile: built-in CPU input boost, devfreq
+ boost, BFQ/WBT, zstd, BBR, exFAT/EROFS, ckbuild 'p' flag
+
+---
+ arch/arm64/configs/perf.config | 40 ++++++++++++++++++++++++++++++++++
+ build/ckbuild.sh               |  6 +++++
+ build/scripts/build.sh         |  5 +++++
+ drivers/cpufreq/Kconfig        | 26 ++++++++++++++++++++++
+ drivers/cpufreq/cpu-boost.c    |  4 +++-
+ 5 files changed, 80 insertions(+), 1 deletion(-)
+ create mode 100644 arch/arm64/configs/perf.config
+
+diff --git a/arch/arm64/configs/perf.config b/arch/arm64/configs/perf.config
+new file mode 100644
+index 000000000..a3ef62c67
+--- /dev/null
++++ b/arch/arm64/configs/perf.config
+@@ -0,0 +1,40 @@
++## Floppy Perf config fragment (Redmi Note 8 / ginkgo)
++## Usado com: ./do_build.sh ginkgo kp   (k = KernelSU Next + SUSFS, p = este fragmento)
++
++# --- Input / devfreq boost (Sultan devfreq_boost; hooks ja existem em fork/page_alloc/drm_atomic) ---
++CONFIG_DEVFREQ_BOOST=y
++CONFIG_DEVFREQ_INPUT_BOOST_DURATION_MS=120
++CONFIG_DEVFREQ_WAKE_BOOST_DURATION_MS=1000
++# MB/s (1017 MHz x 8 = 7759). Em LPDDR3 e limitado ao maximo da tabela.
++CONFIG_DEVFREQ_CPU_DDR_BW_BOOST_FREQ=7759
++
++# --- CPU input boost: defaults embutidos (nao depende de init.rc da ROM) ---
++CONFIG_CPU_BOOST=y
++CONFIG_CPU_BOOST_INPUT_LITTLE_FREQ=1305600
++CONFIG_CPU_BOOST_INPUT_BIG_FREQ=1401600
++CONFIG_CPU_BOOST_INPUT_MS=80
++
++# --- Storage / I/O ---
++CONFIG_IOSCHED_BFQ=y
++CONFIG_BFQ_GROUP_IOSCHED=y
++CONFIG_BLK_WBT=y
++CONFIG_BLK_WBT_SQ=y
++CONFIG_BLK_WBT_MQ=y
++
++# --- RAM / zRAM ---
++# zstd disponivel para o zram (lz4 continua sendo o padrao)
++CONFIG_CRYPTO_ZSTD=y
++CONFIG_ZRAM_DEDUP=y
++CONFIG_ZRAM_WRITEBACK=y
++
++# --- Rede ---
++CONFIG_TCP_CONG_BBR=y
++CONFIG_NET_SCH_FQ=y
++
++# --- Filesystems novos (ja existem na arvore, estavam desligados) ---
++CONFIG_EXFAT_FS=y
++CONFIG_EROFS_FS=y
++CONFIG_EROFS_FS_XATTR=y
++CONFIG_EROFS_FS_POSIX_ACL=y
++CONFIG_EROFS_FS_SECURITY=y
++CONFIG_EROFS_FS_ZIP=y
+diff --git a/build/ckbuild.sh b/build/ckbuild.sh
+index 5d25d65c1..83ffb1c26 100644
+--- a/build/ckbuild.sh
++++ b/build/ckbuild.sh
+@@ -115,6 +115,7 @@ DO_TG=0
+ DO_REGEN=0
+ DO_ZXZ=0
+ DO_FLTO=0
++DO_PERF=0
+ for arg in "$@"; do
+     if [[ "$arg" == *m* ]]; then
+         log_info "menuconfig argument passed, kernel configuration menu will be shown"
+@@ -152,6 +153,10 @@ for arg in "$@"; do
+         log_info "config regeneration mode"
+         DO_REGEN=1
+     fi
++    if [[ "$arg" == *p* ]]; then
++        log_info "Perf argument passed, performance config fragment will be applied"
++        DO_PERF=1
++    fi
+     if [[ "$arg" == *l* ]]; then
+         log_info "Full-LTO argument passed"
+         log_warn "Full-LTO is VERY resource heavy and may take a long time to compile"
+@@ -213,6 +218,7 @@ else
+     CK_TYPE="Vanilla"
+     CK_TYPE_SHORT="V"
+ fi
++[[ "$DO_PERF" == "1" ]] && CK_TYPE="$CK_TYPE-Perf"
+ ZIP_PATH="$KDIR/build/Floppy_$FK_VER-$CK_TYPE-$CODENAME-$DATE.zip"
+ 
+ echo -e "\n$(log_info "Build info:")
+diff --git a/build/scripts/build.sh b/build/scripts/build.sh
+index 2ae2fad29..aeeedf715 100644
+--- a/build/scripts/build.sh
++++ b/build/scripts/build.sh
+@@ -18,6 +18,7 @@ build() {
+         [[ "$DO_KSU" == "1" ]] && FRAGMENTS="$FRAGMENTS ksu.config"
+         [[ "$DO_SUKI" == "1" ]] && FRAGMENTS="$FRAGMENTS sukisu.config"
+         [[ "$DO_XXKSU" == "1" ]] && FRAGMENTS="$FRAGMENTS xxksu.config"
++        [[ "$DO_PERF" == "1" ]] && FRAGMENTS="$FRAGMENTS perf.config"
+         [ "$DROIDSPACES" = "1" ] && [ "$DO_REGEN" != "1" ] && FRAGMENTS="$FRAGMENTS droidspaces.config"
+         if [[ "$CKB_CRASHKEY" == "1" ]]; then
+             FRAGMENTS="$FRAGMENTS crash_key.config"
+@@ -64,6 +65,10 @@ build() {
+         VERSION_STR="${VERSION_STR%\"}-CrashKey\""
+     fi
+ 
++    if [[ "$DO_PERF" == "1" ]]; then
++        VERSION_STR="${VERSION_STR%\"}-Perf\""
++    fi
++
+     scripts/config --file "$KDIR/out/.config" --set-val LOCALVERSION "$VERSION_STR"
+ 
+     if [[ "$VERSION_NOAUTO" == "1" ]]; then
+diff --git a/drivers/cpufreq/Kconfig b/drivers/cpufreq/Kconfig
+index 2554749c5..16484e693 100644
+--- a/drivers/cpufreq/Kconfig
++++ b/drivers/cpufreq/Kconfig
+@@ -213,6 +213,32 @@ config CPU_BOOST
+ 
+ 	  If in doubt, say N.
+ 
++if CPU_BOOST
++
++config CPU_BOOST_INPUT_LITTLE_FREQ
++	int "Default input boost freq for little cluster (CPU0-3), kHz"
++	default 1305600
++	help
++	  Frequency floor applied to CPU0-3 on touch/key input. 0 disables
++	  the default (userspace may still set it at runtime through
++	  /sys/module/cpu_boost/parameters/input_boost_freq).
++
++config CPU_BOOST_INPUT_BIG_FREQ
++	int "Default input boost freq for big cluster (CPU4-7), kHz"
++	default 1401600
++	help
++	  Frequency floor applied to CPU4-7 on touch/key input. 0 disables.
++
++config CPU_BOOST_INPUT_MS
++	int "Default input boost duration, ms"
++	default 80
++	help
++	  How long the input boost lasts. Input events are rate limited to
++	  one boost per 100 ms, so values near 100 keep the boost active
++	  during continuous scrolling.
++
++endif
++
+ config CPU_FREQ_GOV_SCHEDUTIL
+ 	bool "'schedutil' cpufreq policy governor"
+ 	depends on CPU_FREQ && SMP
+diff --git a/drivers/cpufreq/cpu-boost.c b/drivers/cpufreq/cpu-boost.c
+index 9284fb34f..881dd6c98 100644
+--- a/drivers/cpufreq/cpu-boost.c
++++ b/drivers/cpufreq/cpu-boost.c
+@@ -49,7 +49,7 @@ static struct kthread_work input_boost_work;
+ static struct kthread_work powerkey_input_boost_work;
+ static bool input_boost_enabled;
+ 
+-static unsigned int input_boost_ms = 40;
++static unsigned int input_boost_ms = CONFIG_CPU_BOOST_INPUT_MS;
+ module_param(input_boost_ms, uint, 0644);
+ 
+ static unsigned int powerkey_input_boost_ms = 750;
+@@ -456,9 +456,11 @@ static int cpu_boost_init(void)
+ 		if (cpu <= 3) {
+ 			/* Little cluster (CPU 0-3): 1804 MHz */
+ 			s->powerkey_input_boost_freq = 1804800;
++			s->input_boost_freq = CONFIG_CPU_BOOST_INPUT_LITTLE_FREQ;
+ 		} else {
+ 			/* Big cluster (CPU 4-7): 2016 MHz */
+ 			s->powerkey_input_boost_freq = 2016000;
++			s->input_boost_freq = CONFIG_CPU_BOOST_INPUT_BIG_FREQ;
+ 		}
+ 	}
+ 
+-- 
+2.43.0
+
