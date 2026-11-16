@@ -49,7 +49,7 @@ static struct kthread_work input_boost_work;
 static struct kthread_work powerkey_input_boost_work;
 static bool input_boost_enabled;
 
-static unsigned int input_boost_ms = 40;
+static unsigned int input_boost_ms = CONFIG_CPU_BOOST_INPUT_MS;
 module_param(input_boost_ms, uint, 0644);
 
 static unsigned int powerkey_input_boost_ms = 750;
@@ -456,9 +456,11 @@ static int cpu_boost_init(void)
 		if (cpu <= 3) {
 			/* Little cluster (CPU 0-3): 1804 MHz */
 			s->powerkey_input_boost_freq = 1804800;
+			s->input_boost_freq = CONFIG_CPU_BOOST_INPUT_LITTLE_FREQ;
 		} else {
 			/* Big cluster (CPU 4-7): 2016 MHz */
 			s->powerkey_input_boost_freq = 2016000;
+			s->input_boost_freq = CONFIG_CPU_BOOST_INPUT_BIG_FREQ;
 		}
 	}
 
