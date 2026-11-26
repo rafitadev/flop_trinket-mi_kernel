@@ -47,6 +47,16 @@ jobs:
           sudo apt-get install -y lz4 brotli flex bison bc cpio kmod zip ccache \
             binutils-aarch64-linux-gnu libtinfo5 python3 libssl-dev curl
 
+      - name: Diagnostico do toolchain
+        run: |
+          {
+            echo "clang pedido: ${{ inputs.clang }}"
+            echo "--- AOSP listing (ultimos) ---"
+            curl -s "https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+/refs/heads/master" | grep -oE "clang-r[0-9a-f]+" | sort -u | tail -n 8
+            echo "--- clang do runner ---"
+            clang --version 2>&1 | head -2 || true
+          } > "$GITHUB_WORKSPACE/diag.txt" 2>&1
+
       - name: Compilar
         working-directory: kernel
         env:
@@ -54,7 +64,7 @@ jobs:
           CLANG_TYPE: ${{ inputs.clang }}
         run: |
           set -o pipefail
-          ./do_build.sh "${{ inputs.target }}" ${{ inputs.options }} 2>&1 | tee "$GITHUB_WORKSPACE/build.log"
+          ./do_build.sh "${{ inputs.target }}" ${{ inputs.options }} 2>&1 | tee -a "$GITHUB_WORKSPACE/build.log"
 
       - name: Publicar log na branch build-logs
         if: always()
@@ -66,10 +76,11 @@ jobs:
           grep -n -E "error:|Error [0-9]|\*\*\*|undefined reference|fatal|No rule" "$GITHUB_WORKSPACE/build.log" | head -120 > /tmp/logs/errors.txt || true
           git checkout -q --orphan build-logs
           git rm -rf -q . || true
+          cp "$GITHUB_WORKSPACE/diag.txt" /tmp/logs/diag.txt || true
           cp /tmp/logs/*.txt .
-          git add -f tail.txt errors.txt
+          git add -f tail.txt errors.txt diag.txt
           git commit -q -m "build log ${{ github.run_id }}"
-          git push -f origin build-logs
+          git push -f origin HEAD:refs/heads/build-logs-${{ inputs.clang }}
 
       - name: Enviar zip
         uses: actions/upload-artifact@v4
