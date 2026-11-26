@@ -1,0 +1,250 @@
+INFO: Toolchain: AOSP Clang
+INFO: Using ccache
+INFO: Compiler: Android (13174946, +pgo, +bolt, +lto, +mlgo, based on r547379) clang 20.0.0 
+
+make[1]: Entering directory '/home/runner/work/flop_trinket-mi_kernel/flop_trinket-mi_kernel/kernel/out'
+  HOSTCC  scripts/basic/fixdep
+  GEN     ./Makefile
+  HOSTCC  scripts/kconfig/conf.o
+  SHIPPED scripts/kconfig/zconf.tab.c
+  SHIPPED scripts/kconfig/zconf.lex.c
+  HOSTCC  scripts/kconfig/zconf.tab.o
+  HOSTLD  scripts/kconfig/conf
+#
+# configuration written to .config
+#
+  GEN     ./Makefile
+Using .config as base
+Merging ../arch/arm64/configs/vendor/xiaomi-trinket.config
+Value of CONFIG_QCOM_DLOAD_MODE is redefined by fragment ../arch/arm64/configs/vendor/xiaomi-trinket.config:
+Previous value: CONFIG_QCOM_DLOAD_MODE=y
+New value: # CONFIG_QCOM_DLOAD_MODE is not set
+
+Value of CONFIG_FPR_FPC is redefined by fragment ../arch/arm64/configs/vendor/xiaomi-trinket.config:
+Previous value: CONFIG_FPR_FPC=y
+New value: # CONFIG_FPR_FPC is not set
+
+Value of CONFIG_LIRC is redefined by fragment ../arch/arm64/configs/vendor/xiaomi-trinket.config:
+Previous value: # CONFIG_LIRC is not set
+New value: CONFIG_LIRC=y
+
+Value of CONFIG_RC_DEVICES is redefined by fragment ../arch/arm64/configs/vendor/xiaomi-trinket.config:
+Previous value: # CONFIG_RC_DEVICES is not set
+New value: CONFIG_RC_DEVICES=y
+
+Value of CONFIG_NFC_MAX32560 is redefined by fragment ../arch/arm64/configs/vendor/xiaomi-trinket.config:
+Previous value: CONFIG_NFC_MAX32560=y
+New value: # CONFIG_NFC_MAX32560 is not set
+
+Value of CONFIG_PSTORE is redefined by fragment ../arch/arm64/configs/vendor/xiaomi-trinket.config:
+Previous value: # CONFIG_PSTORE is not set
+New value: CONFIG_PSTORE=y
+
+Value of CONFIG_TOUCHSCREEN_HIMAX_CHIPSET is redefined by fragment ../arch/arm64/configs/vendor/xiaomi-trinket.config:
+Previous value: CONFIG_TOUCHSCREEN_HIMAX_CHIPSET=y
+New value: # CONFIG_TOUCHSCREEN_HIMAX_CHIPSET is not set
+
+Value of CONFIG_TOUCHSCREEN_SYNAPTICS_TCM is redefined by fragment ../arch/arm64/configs/vendor/xiaomi-trinket.config:
+Previous value: CONFIG_TOUCHSCREEN_SYNAPTICS_TCM=y
+New value: # CONFIG_TOUCHSCREEN_SYNAPTICS_TCM is not set
+
+Value of CONFIG_QCA_CLD_WLAN is redefined by fragment ../arch/arm64/configs/vendor/xiaomi-trinket.config:
+Previous value: # CONFIG_QCA_CLD_WLAN is not set
+New value: CONFIG_QCA_CLD_WLAN=y
+
+#
+# merged configuration written to .config (needs make)
+#
+  GEN     ./Makefile
+scripts/kconfig/conf  --olddefconfig Kconfig
+#
+# configuration written to .config
+#
+  GEN     ./Makefile
+Using .config as base
+Merging ../arch/arm64/configs/vendor/ginkgo.config
+Value of CONFIG_MACH_XIAOMI_C3J is redefined by fragment ../arch/arm64/configs/vendor/ginkgo.config:
+Previous value: # CONFIG_MACH_XIAOMI_C3J is not set
+New value: CONFIG_MACH_XIAOMI_C3J=y
+
+Value of CONFIG_BACKLIGHT_KTD3136 is redefined by fragment ../arch/arm64/configs/vendor/ginkgo.config:
+Previous value: # CONFIG_BACKLIGHT_KTD3136 is not set
+New value: CONFIG_BACKLIGHT_KTD3136=y
+
+Value of CONFIG_INPUT_FINGERPRINT is redefined by fragment ../arch/arm64/configs/vendor/ginkgo.config:
+Previous value: # CONFIG_INPUT_FINGERPRINT is not set
+New value: CONFIG_INPUT_FINGERPRINT=y
+
+Value of CONFIG_TOUCHSCREEN_NT36xxx_HOSTDL_SPI_C3J is redefined by fragment ../arch/arm64/configs/vendor/ginkgo.config:
+Previous value: # CONFIG_TOUCHSCREEN_NT36xxx_HOSTDL_SPI_C3J is not set
+New value: CONFIG_TOUCHSCREEN_NT36xxx_HOSTDL_SPI_C3J=y
+
+Value of CONFIG_TOUCHSCREEN_FTS_C3J is redefined by fragment ../arch/arm64/configs/vendor/ginkgo.config:
+Previous value: # CONFIG_TOUCHSCREEN_FTS_C3J is not set
+New value: CONFIG_TOUCHSCREEN_FTS_C3J=y
+
+Value of CONFIG_TOUCHSCREEN_XIAOMI_C3J is redefined by fragment ../arch/arm64/configs/vendor/ginkgo.config:
+Previous value: # CONFIG_TOUCHSCREEN_XIAOMI_C3J is not set
+New value: CONFIG_TOUCHSCREEN_XIAOMI_C3J=y
+
+Value of CONFIG_THERMAL_SWITCH is redefined by fragment ../arch/arm64/configs/vendor/ginkgo.config:
+Previous value: # CONFIG_THERMAL_SWITCH is not set
+New value: CONFIG_THERMAL_SWITCH=y
+
+#
+# merged configuration written to .config (needs make)
+#
+  GEN     ./Makefile
+scripts/kconfig/conf  --olddefconfig Kconfig
+#
+# configuration written to .config
+#
+  GEN     ./Makefile
+Using .config as base
+Merging ../arch/arm64/configs/ksu.config
+#
+# merged configuration written to .config (needs make)
+#
+  GEN     ./Makefile
+scripts/kconfig/conf  --olddefconfig Kconfig
+#
+# configuration written to .config
+#
+  GEN     ./Makefile
+Using .config as base
+Merging ../arch/arm64/configs/perf.config
+Value of CONFIG_DEVFREQ_INPUT_BOOST_DURATION_MS is redefined by fragment ../arch/arm64/configs/perf.config:
+Previous value: CONFIG_DEVFREQ_INPUT_BOOST_DURATION_MS=100
+New value: CONFIG_DEVFREQ_INPUT_BOOST_DURATION_MS=120
+
+Value of CONFIG_DEVFREQ_WAKE_BOOST_DURATION_MS is redefined by fragment ../arch/arm64/configs/perf.config:
+Previous value: CONFIG_DEVFREQ_WAKE_BOOST_DURATION_MS=2000
+New value: CONFIG_DEVFREQ_WAKE_BOOST_DURATION_MS=1000
+
+Value of CONFIG_DEVFREQ_CPU_DDR_BW_BOOST_FREQ is redefined by fragment ../arch/arm64/configs/perf.config:
+Previous value: CONFIG_DEVFREQ_CPU_DDR_BW_BOOST_FREQ=5859
+New value: CONFIG_DEVFREQ_CPU_DDR_BW_BOOST_FREQ=7759
+
+Value of CONFIG_IOSCHED_BFQ is redefined by fragment ../arch/arm64/configs/perf.config:
+Previous value: # CONFIG_IOSCHED_BFQ is not set
+New value: CONFIG_IOSCHED_BFQ=y
+
+Value of CONFIG_BLK_WBT is redefined by fragment ../arch/arm64/configs/perf.config:
+Previous value: # CONFIG_BLK_WBT is not set
+New value: CONFIG_BLK_WBT=y
+
+Value of CONFIG_CRYPTO_ZSTD is redefined by fragment ../arch/arm64/configs/perf.config:
+Previous value: # CONFIG_CRYPTO_ZSTD is not set
+New value: CONFIG_CRYPTO_ZSTD=y
+
+Value of CONFIG_TCP_CONG_BBR is redefined by fragment ../arch/arm64/configs/perf.config:
+Previous value: # CONFIG_TCP_CONG_BBR is not set
+New value: CONFIG_TCP_CONG_BBR=y
+
+Value of CONFIG_NET_SCH_FQ is redefined by fragment ../arch/arm64/configs/perf.config:
+Previous value: # CONFIG_NET_SCH_FQ is not set
+New value: CONFIG_NET_SCH_FQ=y
+
+Value of CONFIG_EXFAT_FS is redefined by fragment ../arch/arm64/configs/perf.config:
+Previous value: # CONFIG_EXFAT_FS is not set
+New value: CONFIG_EXFAT_FS=y
+
+Value of CONFIG_PROCESS_RECLAIM is redefined by fragment ../arch/arm64/configs/perf.config:
+Previous value: # CONFIG_PROCESS_RECLAIM is not set
+New value: CONFIG_PROCESS_RECLAIM=y
+
+Value of CONFIG_SLAB_FREELIST_RANDOM is redefined by fragment ../arch/arm64/configs/perf.config:
+Previous value: CONFIG_SLAB_FREELIST_RANDOM=y
+New value: # CONFIG_SLAB_FREELIST_RANDOM is not set
+
+Value of CONFIG_SLAB_FREELIST_HARDENED is redefined by fragment ../arch/arm64/configs/perf.config:
+Previous value: CONFIG_SLAB_FREELIST_HARDENED=y
+New value: # CONFIG_SLAB_FREELIST_HARDENED is not set
+
+#
+# merged configuration written to .config (needs make)
+#
+  GEN     ./Makefile
+scripts/kconfig/conf  --olddefconfig Kconfig
+#
+# configuration written to .config
+#
+  GEN     ./Makefile
+Using .config as base
+Merging ../arch/arm64/configs/droidspaces.config
+Value of CONFIG_SYSVIPC is redefined by fragment ../arch/arm64/configs/droidspaces.config:
+Previous value: # CONFIG_SYSVIPC is not set
+New value: CONFIG_SYSVIPC=y
+
+Value of CONFIG_POSIX_MQUEUE is redefined by fragment ../arch/arm64/configs/droidspaces.config:
+Previous value: # CONFIG_POSIX_MQUEUE is not set
+New value: CONFIG_POSIX_MQUEUE=y
+
+Value of CONFIG_PID_NS is redefined by fragment ../arch/arm64/configs/droidspaces.config:
+Previous value: # CONFIG_PID_NS is not set
+New value: CONFIG_PID_NS=y
+
+Value of CONFIG_DEVTMPFS is redefined by fragment ../arch/arm64/configs/droidspaces.config:
+Previous value: # CONFIG_DEVTMPFS is not set
+New value: CONFIG_DEVTMPFS=y
+
+Value of CONFIG_NETFILTER_XT_MATCH_ADDRTYPE is redefined by fragment ../arch/arm64/configs/droidspaces.config:
+Previous value: # CONFIG_NETFILTER_XT_MATCH_ADDRTYPE is not set
+New value: CONFIG_NETFILTER_XT_MATCH_ADDRTYPE=y
+
+Value of CONFIG_NETFILTER_XT_MATCH_RECENT is redefined by fragment ../arch/arm64/configs/droidspaces.config:
+Previous value: # CONFIG_NETFILTER_XT_MATCH_RECENT is not set
+New value: CONFIG_NETFILTER_XT_MATCH_RECENT=y
+
+Value of CONFIG_IP_SET is redefined by fragment ../arch/arm64/configs/droidspaces.config:
+Previous value: # CONFIG_IP_SET is not set
+New value: CONFIG_IP_SET=y
+
+#
+# merged configuration written to .config (needs make)
+#
+  GEN     ./Makefile
+scripts/kconfig/conf  --olddefconfig Kconfig
+#
+# configuration written to .config
+#
+make[1]: Leaving directory '/home/runner/work/flop_trinket-mi_kernel/flop_trinket-mi_kernel/kernel/out'
+
+INFO: Starting compilation...
+
+make[1]: Entering directory '/home/runner/work/flop_trinket-mi_kernel/flop_trinket-mi_kernel/kernel/out'
+  HOSTCC  scripts/basic/fixdep
+  GEN     ./Makefile
+In file included from ../scripts/basic/fixdep.c:105:
+/usr/include/x86_64-linux-gnu/sys/types.h:144:10: fatal error: 'stddef.h' file not found
+  144 | #include <stddef.h>
+      |          ^~~~~~~~~~
+1 error generated.
+make[3]: *** [scripts/Makefile.host:102: scripts/basic/fixdep] Error 1
+make[2]: *** [../Makefile:506: scripts_basic] Error 2
+make[1]: *** No rule to make target 'include/config/auto.conf', needed by 'include/config/kernel.release'.  Stop.
+make[1]: Leaving directory '/home/runner/work/flop_trinket-mi_kernel/flop_trinket-mi_kernel/kernel/out'
+make: *** [Makefile:153: sub-make] Error 2
+
+INFO: Building DTBO image...
+usage: mkdtboimg.py [--id ID] [--rev REV] [--flags FLAGS] [--custom0 CUSTOM0]
+                    [--custom1 CUSTOM1] [--custom2 CUSTOM2]
+                    [--custom3 CUSTOM3]
+                    [dt_file]
+mkdtboimg.py: error: argument dt_file: can't open 'out/arch/arm64/boot/dts/xiaomi/ginkgo-trinket-overlay.dtbo': [Errno 2] No such file or directory: 'out/arch/arm64/boot/dts/xiaomi/ginkgo-trinket-overlay.dtbo'
+ERROR: Kernel files not found! Compilation failed?
+
+
+
+INFO: Uploading log to 0x0.st
+
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100  1107  100   162  100   945    319   1861 --:--:-- --:--:-- --:--:--  2183
+<html>
+<head><title>301 Moved Permanently</title></head>
+<body>
+<center><h1>301 Moved Permanently</h1></center>
+<hr><center>nginx</center>
+</body>
+</html>
