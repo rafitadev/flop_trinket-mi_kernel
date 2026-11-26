@@ -1,0 +1,250 @@
+Value of CONFIG_DEVFREQ_INPUT_BOOST_DURATION_MS is redefined by fragment ../arch/arm64/configs/perf.config:
+Previous value: CONFIG_DEVFREQ_INPUT_BOOST_DURATION_MS=100
+New value: CONFIG_DEVFREQ_INPUT_BOOST_DURATION_MS=120
+
+Value of CONFIG_DEVFREQ_WAKE_BOOST_DURATION_MS is redefined by fragment ../arch/arm64/configs/perf.config:
+Previous value: CONFIG_DEVFREQ_WAKE_BOOST_DURATION_MS=2000
+New value: CONFIG_DEVFREQ_WAKE_BOOST_DURATION_MS=1000
+
+Value of CONFIG_DEVFREQ_CPU_DDR_BW_BOOST_FREQ is redefined by fragment ../arch/arm64/configs/perf.config:
+Previous value: CONFIG_DEVFREQ_CPU_DDR_BW_BOOST_FREQ=5859
+New value: CONFIG_DEVFREQ_CPU_DDR_BW_BOOST_FREQ=7759
+
+Value of CONFIG_IOSCHED_BFQ is redefined by fragment ../arch/arm64/configs/perf.config:
+Previous value: # CONFIG_IOSCHED_BFQ is not set
+New value: CONFIG_IOSCHED_BFQ=y
+
+Value of CONFIG_BLK_WBT is redefined by fragment ../arch/arm64/configs/perf.config:
+Previous value: # CONFIG_BLK_WBT is not set
+New value: CONFIG_BLK_WBT=y
+
+Value of CONFIG_CRYPTO_ZSTD is redefined by fragment ../arch/arm64/configs/perf.config:
+Previous value: # CONFIG_CRYPTO_ZSTD is not set
+New value: CONFIG_CRYPTO_ZSTD=y
+
+Value of CONFIG_TCP_CONG_BBR is redefined by fragment ../arch/arm64/configs/perf.config:
+Previous value: # CONFIG_TCP_CONG_BBR is not set
+New value: CONFIG_TCP_CONG_BBR=y
+
+Value of CONFIG_NET_SCH_FQ is redefined by fragment ../arch/arm64/configs/perf.config:
+Previous value: # CONFIG_NET_SCH_FQ is not set
+New value: CONFIG_NET_SCH_FQ=y
+
+Value of CONFIG_EXFAT_FS is redefined by fragment ../arch/arm64/configs/perf.config:
+Previous value: # CONFIG_EXFAT_FS is not set
+New value: CONFIG_EXFAT_FS=y
+
+Value of CONFIG_PROCESS_RECLAIM is redefined by fragment ../arch/arm64/configs/perf.config:
+Previous value: # CONFIG_PROCESS_RECLAIM is not set
+New value: CONFIG_PROCESS_RECLAIM=y
+
+Value of CONFIG_SLAB_FREELIST_RANDOM is redefined by fragment ../arch/arm64/configs/perf.config:
+Previous value: CONFIG_SLAB_FREELIST_RANDOM=y
+New value: # CONFIG_SLAB_FREELIST_RANDOM is not set
+
+Value of CONFIG_SLAB_FREELIST_HARDENED is redefined by fragment ../arch/arm64/configs/perf.config:
+Previous value: CONFIG_SLAB_FREELIST_HARDENED=y
+New value: # CONFIG_SLAB_FREELIST_HARDENED is not set
+
+#
+# merged configuration written to .config (needs make)
+#
+  GEN     ./Makefile
+scripts/kconfig/conf  --olddefconfig Kconfig
+#
+# configuration written to .config
+#
+  GEN     ./Makefile
+Using .config as base
+Merging ../arch/arm64/configs/droidspaces.config
+Value of CONFIG_SYSVIPC is redefined by fragment ../arch/arm64/configs/droidspaces.config:
+Previous value: # CONFIG_SYSVIPC is not set
+New value: CONFIG_SYSVIPC=y
+
+Value of CONFIG_POSIX_MQUEUE is redefined by fragment ../arch/arm64/configs/droidspaces.config:
+Previous value: # CONFIG_POSIX_MQUEUE is not set
+New value: CONFIG_POSIX_MQUEUE=y
+
+Value of CONFIG_PID_NS is redefined by fragment ../arch/arm64/configs/droidspaces.config:
+Previous value: # CONFIG_PID_NS is not set
+New value: CONFIG_PID_NS=y
+
+Value of CONFIG_DEVTMPFS is redefined by fragment ../arch/arm64/configs/droidspaces.config:
+Previous value: # CONFIG_DEVTMPFS is not set
+New value: CONFIG_DEVTMPFS=y
+
+Value of CONFIG_NETFILTER_XT_MATCH_ADDRTYPE is redefined by fragment ../arch/arm64/configs/droidspaces.config:
+Previous value: # CONFIG_NETFILTER_XT_MATCH_ADDRTYPE is not set
+New value: CONFIG_NETFILTER_XT_MATCH_ADDRTYPE=y
+
+Value of CONFIG_NETFILTER_XT_MATCH_RECENT is redefined by fragment ../arch/arm64/configs/droidspaces.config:
+Previous value: # CONFIG_NETFILTER_XT_MATCH_RECENT is not set
+New value: CONFIG_NETFILTER_XT_MATCH_RECENT=y
+
+Value of CONFIG_IP_SET is redefined by fragment ../arch/arm64/configs/droidspaces.config:
+Previous value: # CONFIG_IP_SET is not set
+New value: CONFIG_IP_SET=y
+
+#
+# merged configuration written to .config (needs make)
+#
+  GEN     ./Makefile
+scripts/kconfig/conf  --olddefconfig Kconfig
+#
+# configuration written to .config
+#
+make[1]: Leaving directory '/home/runner/work/flop_trinket-mi_kernel/flop_trinket-mi_kernel/kernel/out'
+
+INFO: Starting compilation...
+
+make[1]: Entering directory '/home/runner/work/flop_trinket-mi_kernel/flop_trinket-mi_kernel/kernel/out'
+  HOSTCC  scripts/basic/fixdep
+  GEN     ./Makefile
+  HOSTCC  scripts/kconfig/conf.o
+  HOSTCC  scripts/kconfig/zconf.tab.o
+  HOSTLD  scripts/kconfig/conf
+scripts/kconfig/conf  --silentoldconfig Kconfig
+  CHK     include/config/kernel.release
+  GEN     ./Makefile
+  WRAP    arch/arm64/include/generated/uapi/asm/errno.h
+  WRAP    arch/arm64/include/generated/uapi/asm/ioctl.h
+  WRAP    arch/arm64/include/generated/uapi/asm/ioctls.h
+  WRAP    arch/arm64/include/generated/uapi/asm/ipcbuf.h
+  WRAP    arch/arm64/include/generated/uapi/asm/kvm_para.h
+  WRAP    arch/arm64/include/generated/uapi/asm/mman.h
+  WRAP    arch/arm64/include/generated/uapi/asm/msgbuf.h
+  WRAP    arch/arm64/include/generated/uapi/asm/poll.h
+  WRAP    arch/arm64/include/generated/uapi/asm/resource.h
+  WRAP    arch/arm64/include/generated/uapi/asm/sembuf.h
+  WRAP    arch/arm64/include/generated/uapi/asm/shmbuf.h
+  WRAP    arch/arm64/include/generated/uapi/asm/socket.h
+  WRAP    arch/arm64/include/generated/uapi/asm/sockios.h
+  WRAP    arch/arm64/include/generated/uapi/asm/swab.h
+  WRAP    arch/arm64/include/generated/uapi/asm/termbits.h
+  WRAP    arch/arm64/include/generated/uapi/asm/termios.h
+  WRAP    arch/arm64/include/generated/uapi/asm/types.h
+  CHK     include/generated/uapi/linux/version.h
+  UPD     include/generated/uapi/linux/version.h
+  HOSTCC  scripts/basic/fixdep
+  HOSTCC  scripts/basic/bin2c
+  UPD     include/config/kernel.release
+../net/Makefile:24: CC cannot link executables. Skipping bpfilter.
+  Using .. as source for kernel
+  WRAP    arch/arm64/include/generated/asm/bugs.h
+  WRAP    arch/arm64/include/generated/asm/clkdev.h
+  WRAP    arch/arm64/include/generated/asm/delay.h
+  WRAP    arch/arm64/include/generated/asm/div64.h
+  WRAP    arch/arm64/include/generated/asm/dma.h
+  WRAP    arch/arm64/include/generated/asm/dma-contiguous.h
+  WRAP    arch/arm64/include/generated/asm/early_ioremap.h
+  WRAP    arch/arm64/include/generated/asm/emergency-restart.h
+  WRAP    arch/arm64/include/generated/asm/hw_irq.h
+  WRAP    arch/arm64/include/generated/asm/irq_regs.h
+  WRAP    arch/arm64/include/generated/asm/kdebug.h
+  WRAP    arch/arm64/include/generated/asm/kmap_types.h
+  WRAP    arch/arm64/include/generated/asm/local.h
+  WRAP    arch/arm64/include/generated/asm/local64.h
+  WRAP    arch/arm64/include/generated/asm/mcs_spinlock.h
+  WRAP    arch/arm64/include/generated/asm/mm-arch-hooks.h
+  WRAP    arch/arm64/include/generated/asm/msi.h
+  WRAP    arch/arm64/include/generated/asm/preempt.h
+  WRAP    arch/arm64/include/generated/asm/qrwlock.h
+  WRAP    arch/arm64/include/generated/asm/rwsem.h
+  WRAP    arch/arm64/include/generated/asm/segment.h
+  WRAP    arch/arm64/include/generated/asm/serial.h
+  WRAP    arch/arm64/include/generated/asm/set_memory.h
+  WRAP    arch/arm64/include/generated/asm/sizes.h
+  WRAP    arch/arm64/include/generated/asm/switch_to.h
+  WRAP    arch/arm64/include/generated/asm/trace_clock.h
+  WRAP    arch/arm64/include/generated/asm/unaligned.h
+  WRAP    arch/arm64/include/generated/asm/user.h
+  CHK     include/generated/utsrelease.h
+  WRAP    arch/arm64/include/generated/asm/vga.h
+  UPD     include/generated/utsrelease.h
+  LDS     scripts/module-lto.lds
+../drivers/kernelsu/kernel/Kbuild:114: -- KernelSU: ./usr/include not found, preinit disabled
+../drivers/kernelsu/kernel/Kbuild:144: "KSU_GIT_VERSION not defined! It is better to make KernelSU-Next a git repository!"
+-- KernelSU-Next version fallback: 33355
+../drivers/kernelsu/kernel/Kbuild:164: "KSU_VERSION_TAG not defined! It is better to make KernelSU-Next a git submodule!"
+-- KernelSU-Next tag fallback: v3.4.2-legacy
+-- KernelSU-Next tag: v3.4.2-legacy
+-- KernelSU-Next Manager signature size: 0x3e6
+-- KernelSU-Next Manager signature hash: 79e590113c4c4c0c222978e413a5faa801666957b1212a328e46c00c69821bf7
+-- KernelSU-Next: Hook mode: Manual
+  HOSTCC  scripts/dtc/dtc.o
+  HOSTCC  scripts/dtc/flattree.o
+  CC      scripts/mod/empty.o
+  HOSTCC  scripts/mod/mk_elfconfig
+-- SUSFS_VERSION: v2.2.0
+  HOSTCC  scripts/selinux/genheaders/genheaders
+  CC      scripts/mod/devicetable-offsets.s
+  HOSTCC  scripts/dtc/fstree.o
+  MKELF   scripts/mod/elfconfig.h
+  CHK     scripts/mod/devicetable-offsets.h
+  UPD     scripts/mod/devicetable-offsets.h
+  HOSTCC  scripts/mod/sumversion.o
+  HOSTCC  scripts/dtc/data.o
+  HOSTCC  scripts/selinux/mdp/mdp
+  HOSTCC  scripts/dtc/livetree.o
+  HOSTCC  scripts/mod/modpost.o
+  CC      kernel/bounds.s
+  CHK     include/generated/timeconst.h
+  UPD     include/generated/timeconst.h
+  CHK     include/generated/bounds.h
+  UPD     include/generated/bounds.h
+  CC      arch/arm64/kernel/asm-offsets.s
+  HOSTCC  scripts/dtc/treesource.o
+  HOSTCC  scripts/dtc/srcpos.o
+  HOSTCC  scripts/dtc/checks.o
+  HOSTCC  scripts/mod/file2alias.o
+  HOSTCC  scripts/dtc/util.o
+  CHK     include/generated/asm-offsets.h
+  UPD     include/generated/asm-offsets.h
+  CALL    ../scripts/checksyscalls.sh
+  SHIPPED scripts/dtc/dtc-lexer.lex.c
+  SHIPPED scripts/dtc/dtc-parser.tab.h
+  SHIPPED scripts/dtc/dtc-parser.tab.c
+  HOSTCC  scripts/dtc/dtc-lexer.lex.o
+  HOSTLD  scripts/mod/modpost
+  HOSTCC  scripts/dtc/dtc-parser.tab.o
+  LDS     arch/arm64/kernel/vdso/vdso.lds
+  VDSOA   arch/arm64/kernel/vdso/gettimeofday.o
+  VDSOA   arch/arm64/kernel/vdso/note.o
+  VDSOA   arch/arm64/kernel/vdso/sigreturn.o
+  HOSTCC  scripts/kallsyms
+  HOSTLD  scripts/dtc/dtc
+  LD      arch/arm64/kernel/vdso/vdso.so.dbg
+ld.lld: for the --import-instr-limit option: may only occur zero or one times!
+ld.lld: error: --plugin-opt=-: 
+make[2]: *** [../arch/arm64/kernel/vdso/Makefile:34: arch/arm64/kernel/vdso/vdso.so.dbg] Error 1
+make[1]: *** [arch/arm64/Makefile:231: vdso_prepare] Error 2
+make[1]: *** Waiting for unfinished jobs....
+  HOSTCC  scripts/sortextable
+  HOSTCC  scripts/asn1_compiler
+  HOSTCC  scripts/sign-file
+  HOSTCC  scripts/extract-cert
+make[1]: Leaving directory '/home/runner/work/flop_trinket-mi_kernel/flop_trinket-mi_kernel/kernel/out'
+make: *** [Makefile:153: sub-make] Error 2
+
+INFO: Building DTBO image...
+usage: mkdtboimg.py [--id ID] [--rev REV] [--flags FLAGS] [--custom0 CUSTOM0]
+                    [--custom1 CUSTOM1] [--custom2 CUSTOM2]
+                    [--custom3 CUSTOM3]
+                    [dt_file]
+mkdtboimg.py: error: argument dt_file: can't open 'out/arch/arm64/boot/dts/xiaomi/ginkgo-trinket-overlay.dtbo': [Errno 2] No such file or directory: 'out/arch/arm64/boot/dts/xiaomi/ginkgo-trinket-overlay.dtbo'
+ERROR: Kernel files not found! Compilation failed?
+
+
+
+INFO: Uploading log to 0x0.st
+
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100  6442  100   162  100  6280    333  12925 --:--:-- --:--:-- --:--:-- 13282
+<html>
+<head><title>301 Moved Permanently</title></head>
+<body>
+<center><h1>301 Moved Permanently</h1></center>
+<hr><center>nginx</center>
+</body>
+</html>
