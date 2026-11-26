@@ -1,0 +1,13 @@
+clang pedido: aosp
+--- AOSP listing (ultimos) ---
+clang-r487747c
+clang-r498229
+clang-r498229b
+clang-r510928
+clang-r522817
+clang-r530567
+clang-r536225
+clang-r547379
+--- clang do runner ---
+Ubuntu clang version 14.0.0-1ubuntu1.1
+Target: x86_64-pc-linux-gnu
