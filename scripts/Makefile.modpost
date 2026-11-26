@@ -154,6 +154,8 @@ else
 	$(if $(ARCH_POSTLINK), $(MAKE) -f $(ARCH_POSTLINK) $@, true)
 endif
 
+cmd_ld_ko_o += ; $(STRIP) --strip-debug $@
+
 $(modules): %.ko: %$(modpost-ext).o %.mod.o FORCE
 	+$(call if_changed,ld_ko_o)
 

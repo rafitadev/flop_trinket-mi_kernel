@@ -571,8 +571,12 @@ static inline void file_pos_write(struct file *file, loff_t pos)
 #ifdef CONFIG_KSU_MANUAL_HOOK
 #if !defined(CONFIG_KSU_SUKI) && (defined(CONFIG_KSU_NEXT) || defined(CONFIG_KSU_RKSU))
 extern bool ksu_vfs_read_hook __read_mostly;
+#if defined(CONFIG_KSU_NEXT)
+extern void ksu_handle_sys_read(unsigned int fd);
+#else
 extern int ksu_handle_sys_read(unsigned int fd, char __user **buf_ptr,
 			size_t *count_ptr);
+#endif
 #endif
 #endif
 
@@ -583,8 +587,12 @@ SYSCALL_DEFINE3(read, unsigned int, fd, char __user *, buf, size_t, count)
 
 #ifdef CONFIG_KSU_MANUAL_HOOK
 #if !defined(CONFIG_KSU_SUKI) && (defined(CONFIG_KSU_NEXT) || defined(CONFIG_KSU_RKSU))
-	if (unlikely(ksu_vfs_read_hook)) 
+	if (unlikely(ksu_vfs_read_hook))
+#if defined(CONFIG_KSU_NEXT)
+		ksu_handle_sys_read(fd);
+#else
 		ksu_handle_sys_read(fd, &buf, &count);
+#endif
 #endif
 #endif
 	if (f.file) {

@@ -2,7 +2,7 @@
 set -e
 
 if [ -z "$1" ]; then
-    KMIS="android12-5.10 android13-5.10 android13-5.15 android14-5.15 android14-6.1 android15-6.6 android16-6.12"
+    KMIS="android12-5.10 android13-5.10 android13-5.15 android14-5.15 android14-6.1 android15-6.6 android16-6.12 android17-6.18"
 else
     KMIS=$1
 fi
@@ -17,10 +17,16 @@ mv .ddk-version .ddk-version.bak 2> /dev/null || true
 for kmi in $KMIS; do
     echo "========== Building $kmi =========="
     ODIR="$(realpath .)/out/$kmi"
-    if ddk build "$kmi" "ODIR=$ODIR" -e CONFIG_KSU=m -e CONFIG_KSU_TRACEPOINT_HOOK=y -e CONFIG_KSU_MULTI_MANAGER_SUPPORT=y -- -C kernel; then
+    if ddk build "$kmi" \
+        -e CONFIG_KSU=m \
+        -e CONFIG_KSU_TRACEPOINT_HOOK=y \
+        -e CONFIG_KSU_MULTI_MANAGER_SUPPORT=y \
+        -- \
+        "ODIR=$ODIR" \
+        -C kernel; then
         if [ -f "$ODIR/kernelsu.ko" ]; then
-            cp "$ODIR/kernelsu.ko" "kernel/kernelsu-${kmi}.ko"
-            llvm-strip -d "kernel/kernelsu-${kmi}.ko"
+            cp "$ODIR/kernelsu.ko" "out/kernelsu-${kmi}.ko"
+            llvm-strip -d "out/kernelsu-${kmi}.ko"
             echo "✓ Built kernelsu-${kmi}.ko"
         fi
     else
@@ -32,5 +38,4 @@ done
 mv .ddk-version.bak .ddk-version 2> /dev/null || true
 
 echo "========== Final output =========="
-cd kernel
-ls -l kernelsu-*.ko
+ls -l out/kernelsu-*.ko

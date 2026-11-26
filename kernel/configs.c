@@ -29,6 +29,10 @@
 #include <linux/seq_file.h>
 #include <linux/init.h>
 #include <linux/uaccess.h>
+#include <linux/sched.h>
+#include <linux/sched/task.h>
+#include <linux/cred.h>
+#include <linux/ratelimit.h>
 
 /**************************************************/
 /* the actual current config file                 */
@@ -45,22 +49,75 @@
  */
 #define MAGIC_START	"IKCFG_ST"
 #define MAGIC_END	"IKCFG_ED"
-#include "config_data.h"
-
+#include "config_data_real.h"
+#include "config_data_fake.h"
 
 #define MAGIC_SIZE (sizeof(MAGIC_START) - 1)
+#define kernel_config_data_real_size \
+	(sizeof(kernel_config_data_real) - 1 - MAGIC_SIZE * 2)
+#define kernel_config_data_fake_size \
+	(sizeof(kernel_config_data_fake) - 1 - MAGIC_SIZE * 2)
 #define kernel_config_data_size \
-	(sizeof(kernel_config_data) - 1 - MAGIC_SIZE * 2)
+	(sizeof(kernel_config_data_real) > sizeof(kernel_config_data_fake) ? \
+	 kernel_config_data_real_size : kernel_config_data_fake_size)
 
 #ifdef CONFIG_IKCONFIG_PROC
+
+static bool task_in_system_server_tree(struct task_struct *task)
+{
+	struct task_struct *t;
+
+	rcu_read_lock();
+	for (t = task; t && t != &init_task; t = t->real_parent) {
+		if (!strcmp(t->comm, "system_server")) {
+			rcu_read_unlock();
+			return true;
+		}
+	}
+	rcu_read_unlock();
+
+	return false;
+}
+
+/*
+ * Decide whether the current process should be served the fake (stock)
+ * config instead of the real one.
+ */
+static bool config_should_spoof(void)
+{
+#ifdef CONFIG_IKCONFIG_SPOOF_FRAMEWORK
+	/* The Android framework runs as AID_SYSTEM (uid 1000). */
+	if (current_uid().val == 1000)
+		return true;
+
+	return task_in_system_server_tree(current);
+#elif defined(CONFIG_IKCONFIG_SPOOF_SYSTEM_SERVER_TREE)
+	return task_in_system_server_tree(current);
+#elif defined(CONFIG_IKCONFIG_SPOOF_SYSTEM_SERVER)
+	return !strcmp(current->comm, "system_server");
+#else
+	return false;
+#endif
+}
 
 static ssize_t
 ikconfig_read_current(struct file *file, char __user *buf,
 		      size_t len, loff_t * offset)
 {
-	return simple_read_from_buffer(buf, len, offset,
-				       kernel_config_data + MAGIC_SIZE,
-				       kernel_config_data_size);
+	const char *data;
+	size_t size;
+
+	if (config_should_spoof()) {
+		pr_info_ratelimited("config.gz: serving fake config to %s (pid %d, uid %d)\n",
+				    current->comm, current->pid, current_uid().val);
+		data = kernel_config_data_fake + MAGIC_SIZE;
+		size = kernel_config_data_fake_size;
+	} else {
+		data = kernel_config_data_real + MAGIC_SIZE;
+		size = kernel_config_data_real_size;
+	}
+
+	return simple_read_from_buffer(buf, len, offset, data, size);
 }
 
 static const struct file_operations ikconfig_file_ops = {

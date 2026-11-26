@@ -1,7 +1,12 @@
 #ifndef __KSU_H_SULOG_EVENT
 #define __KSU_H_SULOG_EVENT
 
+#include <linux/version.h>
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(4, 14, 0)
 #include <linux/compiler_types.h>
+#else
+#include <linux/compiler.h>
+#endif
 #include <linux/gfp.h>
 #include <linux/init.h>
 #include <linux/types.h>
@@ -17,6 +22,8 @@ struct ksu_sulog_pending_event *ksu_sulog_capture_root_execve(const char __user 
                                                               const char __user *const __user *argv_user, gfp_t gfp);
 struct ksu_sulog_pending_event *ksu_sulog_capture_sucompat(const char __user *filename_user,
                                                            const char __user *const __user *argv_user, gfp_t gfp);
+struct ksu_sulog_pending_event *ksu_sulog_capture_root_execve_kern(const char *filename,
+                                                                   const char *const *argv, gfp_t gfp);
 void ksu_sulog_emit_pending(struct ksu_sulog_pending_event *pending, int retval, gfp_t gfp);
 int ksu_sulog_emit_grant_root(int retval, __u32 uid, __u32 euid, gfp_t gfp);
 

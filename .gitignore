@@ -132,8 +132,8 @@ Android.bp
 # Build directory
 /out/
 
-# Gitpod files shouldn't be ignored
-!.gitpod*
+# Build artifacts
+/build/*.zip
 
 # Ignore script log file
 log.txt
